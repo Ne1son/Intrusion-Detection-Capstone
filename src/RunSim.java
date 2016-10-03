@@ -12,7 +12,12 @@ public class RunSim
 
 	// mouse object
 	public Mouse mouse = new Mouse();
-
+	
+	//ZACK SHIT
+	int numSuccesses = 0;
+	double totalMouseDistance = 0.0;
+	
+	
 	// information about the simulation
 	public int sensorCount = 50;
 	public float sensingRange = 20;
@@ -524,9 +529,25 @@ public class RunSim
 // saves a trial of the current simulation
 	public void saveTrial(int iteration)
 	{
+		//Zack shit
+		if(iteration == 0)
+		{
+			numSuccesses = 0;
+			totalMouseDistance = 0;
+		}
+		if(mouseSuccess())
+			numSuccesses++;
+		
+		totalMouseDistance = totalMouseDistance + mouse.getX();
+		
+		//
 		double mouseDist = mouse.getX();
+/*Zack Shit*/	if(mouseDist < 0)
+					mouseDist = 0; /**/
 		int start = mouse.getTravels().get(0).y;
-		wsnFrame.printToLog("Trial #"+iteration+": Success="+mouseSuccess()+"; Distance Traveled: "+mouseDist+";\n");
+		wsnFrame.printToLog("Trial #"+iteration+": Success="+mouseSuccess()+"; Distance Traveled: "+mouseDist+"; Successes = " + numSuccesses + 
+				"; Total Distance: " + totalMouseDistance + "; Average Distance: " + (totalMouseDistance / (iteration + 1)) + "\n");
+		
 		restartSimulation(false);
 		// System.out.println("Saving Trial: "+w+" , "+mouseDist);
 		if(wsnFrame.loaded == -1)
