@@ -16,6 +16,8 @@ public class Cat
 	private int simId = -1;
 
 	private float stepSize = 1;
+	
+	private boolean detected = false;
 
 // polymorphism for allowing random placement of place
 	public Cat(float totalX, float totalY)
@@ -47,13 +49,30 @@ public class Cat
 		y = 0;
 	}
 
-// determines if the mouse is in the detection radius or not
+	/*
+// old detect function, better average case (~50% better), worse worst case
 	public boolean detect(double mouseX, double mouseY, double radius)
 	{
 		return radius >= Math.sqrt(Math.pow((mouseY-y),2)+Math.pow((mouseX-x),2));
+	}*/
+	
+
+// determines if the mouse is in the detection radius or not
+	public boolean detect(double mouseX, double mouseY, double radius)
+	{
+		detected = false;
+		
+		if (Math.abs(mouseX-x) < radius && Math.abs(mouseY-y) < radius)
+		{
+			detected = (radius >= Math.sqrt(Math.pow((mouseY-y),2)+Math.pow((mouseX-x),2)));
+		}
+		
+		return detected;
+		
 	}
 
-// drawing method for if the cat is in the network or not
+
+	// drawing method for if the cat is in the network or not
 	public void drawCat(Color color, Color connectedColor, float radius, Graphics2D gd)
 	{
 		if(hasParent())
