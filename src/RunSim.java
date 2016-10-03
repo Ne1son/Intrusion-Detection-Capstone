@@ -25,7 +25,7 @@ public class RunSim
 	public int detectionThreshold = 3;
 	public float intruderSensingRange = 60;
 	
-	// panel size data
+	// panel size
 	public int w = 1;
 	public int h = 1;
 
@@ -49,7 +49,9 @@ public class RunSim
 		wsnFrame = frame;
 		cats = new Cat[sensorCount];
 		mouse = new Mouse(0, mouseStart, mouseAlgorithmType, h, this);
-		resetSurface(x,y);
+		w = x;
+		h = y;
+		resetSurface();
 	}
 
 	public RunSim(int id, WSNFrame frame)
@@ -74,33 +76,8 @@ public class RunSim
 		h = wsnFrame.getFieldHeight();
 		
 		// cats = new Cat[sensorCount];
-		resetSurface();
-		restartSimulation(false);
-	}
-
-// resets the cats and mouse of the simulation with random placement
-	public void resetSurface(int width, int height)
-	{
-		w = width;
-		h = height;
-		Random rand = new Random();
-		cats[0] = new Cat(width,(int)height/2+1,true);
-		for(int i = 1; i < sensorCount; i++)
-		{
-			cats[i] = new Cat(width, height);
-		}
-
-		connectAllCats();
-				
-		concurrentCaught = 0;
-		caughtArray = new int[detectionThreshold];
-		for (int i=0; i<detectionThreshold; i++)
-			caughtArray[i] = -1;
-				
-		mouseStart = rand.nextFloat()*height;
-		mouse = new Mouse(-1*(2+sensingRange), mouseStart, mouseAlgorithmType, h, this);
-//		mouse = new Mouse(0, mouseStart, mouseAlgorithmType, h, this);
-		mouse.resetPath();
+		//resetSurface();
+		restartSimulation(true);
 	}
 
 	public void resetSurface()
@@ -125,13 +102,13 @@ public class RunSim
 //		mouse = new Mouse(0, mouseStart, mouseAlgorithmType, h, this);
 		mouse.resetPath();
 		mouse.alg.resetAlg();
-		mouse.setAlgParameters(wsnFrame.getAlgorithmParameters());
+		//mouse.setAlgParameters(wsnFrame.getAlgorithmParameters());
 	}
 
 // restarts simulation with the same information
-	private void restartSimulation(boolean which)
+	private void restartSimulation(boolean surface_reset)
 	{
-		if(which)
+		if(surface_reset)
 			resetSurface();
 		else
 		{
@@ -250,13 +227,13 @@ public class RunSim
 			}
 		}
 	}
-
+/*
 // determines if two cats can be connected to each other
 	public static boolean canCatsTalk(Cat cat1, Cat cat2, float radius)
 	{
 		return radius >= Math.sqrt(Math.pow((cat1.getY()-cat2.getY()),2)+Math.pow((cat1.getX()-cat2.getX()),2));
 	}
-	
+*/	
 	public Cat[] getCats()
 	{
 		return cats;

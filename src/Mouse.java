@@ -54,6 +54,9 @@ public class Mouse
 			break;
 				
 			case "Linear":
+				alg = new LinearIntrusion();
+			break;
+			
 			default:
 				alg = new LinearIntrusion();
 		}
