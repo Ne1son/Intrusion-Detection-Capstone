@@ -80,6 +80,7 @@ public class RunSim
 		restartSimulation(true);
 	}
 
+        // Reset sensor positions
 	public void resetSurface()
 	{
 		Random rand = new Random();
@@ -523,7 +524,7 @@ public class RunSim
 		wsnFrame.printToLog("Trial #"+iteration+": Success="+mouseSuccess()+"; Distance Traveled: "+mouseDist+"; Successes = " + numSuccesses + 
 				"; Total Distance: " + totalMouseDistance + "; Average Distance: " + (totalMouseDistance / (iteration + 1)) + "\n");
 		
-		restartSimulation(false);
+		restartSimulation(true);
 		// System.out.println("Saving Trial: "+w+" , "+mouseDist);
 		if(wsnFrame.loaded == -1)
 			return;
@@ -575,7 +576,7 @@ public class RunSim
 	{
 		double mouseDist = mouse.getX();
 		wsnFrame.printToLog("Trial #"+iteration+": Success="+mouseSuccess()+"; Distance Traveled: "+mouseDist+";\n");
-		restartSimulation(false);
+		restartSimulation(true);
 		// System.out.println("Saving Trial: "+w+" , "+mouseDist);
 		Connection c = null;
 		Statement stmt = null;
