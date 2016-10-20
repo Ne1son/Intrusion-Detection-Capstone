@@ -210,30 +210,28 @@ public class RunSim
 		// while Q is not empty:
 		while(!catQ.isEmpty())
 		{
-			// u = Q.dequeue()
-			u = catQ.removeLast();
-			// for each node n that is adjacent to u:
-			// for(int i = 1; i < cats.length; i++)
-			for(int i = 1; i < sensorCount; i++)
-			{
-				if(communicationRange >= Math.sqrt(Math.pow((u.getY()-cats[i].getY()),2)+Math.pow((u.getX()-cats[i].getX()),2)) && !cats[i].hasParent())
-				{
-					// if cats[i].distance == INFINITY:
-					// cats[i].parent = u
-					cats[i].setParent(u);
-					// catQ.enqueue(n)
-					catQ.addFirst(cats[i]);
-				}
-			}
-		}
+                    // u = Q.dequeue()
+                    u = catQ.removeLast();
+                    // for each node n that is adjacent to u:
+                    // for(int i = 1; i < cats.length; i++)
+                    for(int i = 1; i < sensorCount; i++)
+                    {
+                                      
+                        if( !cats[i].hasParent() &&
+                            Math.abs(u.getX()-cats[i].getX()) < communicationRange &&
+                            Math.abs(u.getY()-cats[i].getY()) < communicationRange &&
+                            Math.sqrt(Math.pow((u.getX()-cats[i].getX()),2)+Math.pow((u.getY()-cats[i].getY()),2)) < communicationRange)
+                            { 
+                                // if cats[i].distance == INFINITY:
+                                // cats[i].parent = u
+                                cats[i].setParent(u);
+                                // catQ.enqueue(n)
+                                catQ.addFirst(cats[i]);
+                            }
+                        }
+                }
 	}
-/*
-// determines if two cats can be connected to each other
-	public static boolean canCatsTalk(Cat cat1, Cat cat2, float radius)
-	{
-		return radius >= Math.sqrt(Math.pow((cat1.getY()-cat2.getY()),2)+Math.pow((cat1.getX()-cat2.getX()),2));
-	}
-*/	
+
 	public Cat[] getCats()
 	{
 		return cats;
