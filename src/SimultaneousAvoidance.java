@@ -42,16 +42,16 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 			dist = Point.distance(x,y,run.cats[i].getX(),run.cats[i].getY());
 			if(run.cats[i].hasParent() &&  dist <= run.intruderSensingRange)
 			{
-				if(numFront == 0 && Point.distance(x+1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.sensingRange)
+				if(numFront == 0 && Point.distance(x+1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
 					numFront = i;
 	
-				if(numDown == 0 && Point.distance(x,y+1,run.cats[i].getX(),run.cats[i].getY()) <= run.sensingRange)
+				if(numDown == 0 && Point.distance(x,y+1,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
 					numDown = i;
 	
-				if(numUp == 0 && Point.distance(x,y-1,run.cats[i].getX(),run.cats[i].getY()) <= run.sensingRange)
+				if(numUp == 0 && Point.distance(x,y-1,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
 					numUp = i;
 				
-				if(numBack == 0 && Point.distance(x-1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.sensingRange)
+				if(numBack == 0 && Point.distance(x-1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
 					numBack = i ;
 			}
 			

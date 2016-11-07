@@ -69,8 +69,8 @@ public class Surface extends JPanel implements ActionListener
 	private void drawCats(Graphics2D gd)
 	{
 		for(int i = 1; i < run.cats.length; i++)
-			run.cats[i].drawCat(new Color(255,0,0,drawSnsOpacity), new Color(0,0,255,drawSnsOpacity), run.sensingRange, gd);
-		run.cats[0].drawCat(new Color(0,255,0,drawSnsOpacity), run.sensingRange, gd);
+			run.cats[i].drawCat(new Color(255,0,0,drawSnsOpacity), new Color(0,0,255,drawSnsOpacity), run.cats[i].sensingRange, gd);
+		run.cats[0].drawCat(new Color(0,255,0,drawSnsOpacity), run.cats[i].sensingRange, gd);
 		// 	run.cats[i].drawCat(Color.red, Color.blue, run.sensingRange, gd);
 		// run.cats[0].drawCat(Color.green, run.sensingRange, gd);
 	}
@@ -145,7 +145,7 @@ public class Surface extends JPanel implements ActionListener
 	private void drawDetectingSensors(Graphics2D gd, int[] sensors)
 	{
 		for (int i=0; i<sensors.length; i++)
-			run.cats[sensors[i]].drawCat(new Color(255,0,255,drawSnsOpacity), run.sensingRange, gd);
+			run.cats[sensors[i]].drawCat(new Color(255,0,255,drawSnsOpacity), run.cats[sensors[i]].getSensingRange(), gd);
 		
 		gd.setPaint(Color.black);
 		gd.setStroke(new BasicStroke(2));

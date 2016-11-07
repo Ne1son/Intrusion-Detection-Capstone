@@ -21,8 +21,10 @@ public class RunSim
     public csvOut csv;
 	
 	// information about the simulation
-	public int sensorCount = 50;
-	public float sensingRange = 20;
+	public int sensorCount1 = 50;
+	public int sensorCount2 = 0;
+	public float sensingRange1 = 20;
+	public float sensingRange2 = 0;
 	public float communicationRange = 40;
 	public int detectionThreshold = 3;
 	public float intruderSensingRange = 60;
@@ -53,7 +55,7 @@ public class RunSim
 		csv = new csvOut("output", header);		
 		
 		wsnFrame = frame;
-		cats = new Cat[sensorCount];
+		cats = new Cat[sensorCount1 + sensorCount2];
 		mouse = new Mouse(0, mouseStart, mouseAlgorithmType, h, this);
 		w = x;
 		h = y;
@@ -68,16 +70,18 @@ public class RunSim
 		
 		wsnFrame = frame;
 		// recallSimulation(id);
-		cats = new Cat[sensorCount];
+		cats = new Cat[sensorCount1 + sensorCount2];
 		mouse = new Mouse(0, mouseStart, mouseAlgorithmType, h, this);
 	}
 
 	// Update-button from WSNFrame calls this
 	public void updateSettings()
 	{
-		sensorCount = wsnFrame.getSensorCount();
-		sensingRange = wsnFrame.getSensingRange();
-		communicationRange = wsnFrame.getCommunicationRange();
+		sensorCount1 = wsnFrame.getT1SensorCount();
+		sensorCount2 = wsnFrame.getT2SensorCount();
+		sensingRange1 = wsnFrame.getT1SensingRange();
+		sensingRange2 = wsnFrame.getT2SensingRange();
+		communicationRange = wsnFrame.getT1CommunicationRange();
 		detectionThreshold = wsnFrame.getDetectionThreshold();
 		mouseAlgorithmType = wsnFrame.getAlgorithmType();
 		detectionAlgorithm = wsnFrame.getDetectionType();
@@ -90,15 +94,27 @@ public class RunSim
 		restartSimulation(true);
 	}
 
+	public int findBiggestSensingRange()
+	{
+		if(sensingRange1 >= sensingRange2)
+			return sensingRange1;
+		else
+			return sensingRange2;
+	}
+	
         // Reset sensor positions
 	public void resetSurface()
 	{
 		Random rand = new Random();
-		cats = new Cat[sensorCount];
-		cats[0] = new Cat(w,(int)h/2+1,true);
-		for(int i = 1; i < sensorCount; i++)
+		cats = new Cat[sensorCount1 + sensorCount2];
+		cats[0] = new Cat(w,(int)h/2+1,true, 1);
+		for(int i = 1; i <= sensorCount1; i++)
 		{
-			cats[i] = new Cat(w, h);
+			cats[i] = new Cat(w, h, sensingRange1);
+		}
+		for(int 1 = sensorCount1 + 1; 1 <= sensorCount1 + sensorCount2; 1++)
+		{
+			cats[i] = new Cat(w, h, sensingRange2);
 		}
 
 		connectAllCats();
@@ -109,7 +125,7 @@ public class RunSim
 			caughtArray[i] = -1;
 		
 		mouseStart = rand.nextFloat()*h;
-		mouse = new Mouse(-1*(2+sensingRange), mouseStart, mouseAlgorithmType, h, this);
+		mouse = new Mouse(-1*(2 + findBiggestSensingRange()), mouseStart, mouseAlgorithmType, h, this);
 //		mouse = new Mouse(0, mouseStart, mouseAlgorithmType, h, this);
 		mouse.resetPath();
 		mouse.alg.resetAlg();
@@ -123,7 +139,7 @@ public class RunSim
 			resetSurface();
 		else
 		{
-			if(cats.length != sensorCount)
+			if(cats.length != sensorCount1 + sensorCount2)
 			{
 				resetSurface();
 				return;
@@ -135,7 +151,7 @@ public class RunSim
 				caughtArray[i] = -1;
 			
 //			mouse.setX(0);
-			mouse.setX(-1*(2+sensingRange));
+			mouse.setX(-1*(2 + findBiggestSensingRange()));
 			Random rand = new Random();
 			mouseStart = rand.nextFloat()*h;
 			mouse.setY(mouseStart);
@@ -148,7 +164,7 @@ public class RunSim
 	private int detect(double mouseX, double mouseY)
 	{
 		for(int i = 0; i < cats.length; i++)
-			if(cats[i].detect(mouseX, mouseY, sensingRange) && cats[i].hasParent())
+			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent())
 				return i;
 		return -1;
 	}
@@ -161,7 +177,7 @@ public class RunSim
 		
 		for (int i=0; i<cats.length; i++)
 		{
-			if(cats[i].detect(mouseX, mouseY, sensingRange) && cats[i].hasParent())
+			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent())
 			{
 				boolean used = false;
 				for (int j=0; j<caughtArray.length; j++)
@@ -191,7 +207,7 @@ public class RunSim
 		
 		for (int i=0; i<cats.length; i++)
 		{
-			if(cats[i].detect(mouseX, mouseY, sensingRange) && cats[i].hasParent())
+			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent())
 			{
 				caughtArray[n++] = i;
 				if(n >= detectionThreshold)
@@ -225,7 +241,7 @@ public class RunSim
                     u = catQ.removeLast();
                     // for each node n that is adjacent to u:
                     // for(int i = 1; i < cats.length; i++)
-                    for(int i = 1; i < sensorCount; i++)
+                    for(int i = 1; i < sensorCount1 + sensorCount2; i++)
                     {
                                       
                         if( !cats[i].hasParent() &&

@@ -11,7 +11,7 @@ public class Mouse
 	private String algorithmType = "Linear";
 	private int fieldH;
 	
-	final private float sensingRange = 0; // not utilized yet
+	//final private float sensingRange = 0; // not utilized yet
 
 	private float stepSize = 1;
 	private ArrayList<Point> travelPoints;

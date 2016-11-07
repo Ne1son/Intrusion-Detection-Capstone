@@ -9,6 +9,7 @@ public class Cat
 {
 	private float x = 0;
 	private float y = 0;
+	private float sensingRange = 0;
 
 	// pointer to the cat that connects this cat to the base node
 	private Cat parent = null;
@@ -20,33 +21,37 @@ public class Cat
 	private boolean detected = false;
 
 // polymorphism for allowing random placement of place
-	public Cat(float totalX, float totalY)
+	public Cat(float totalX, float totalY, float sensingRange)
 	{
 		Random rand = new Random();
 		x = rand.nextFloat()*totalX;
 		y = rand.nextFloat()*totalY;
+		sensingRange = sensingRange;
 	}
 
 //	polymorphism for copying some stuff
-	public Cat(double placeX, double placeY, boolean place, boolean insideNetwork)
+	public Cat(double placeX, double placeY, boolean place, boolean insideNetwork, float sensingRange)
 	{
 		x = (float)placeX;
 		y = (float)placeY;
+		sensingRange = sensingRange;
 		if(place)
 			parent = new Cat();
 	}
 	
 // polymorphism for setting the exact place of the cat
-	public Cat(float placeX, float placeY, boolean place)
+	public Cat(float placeX, float placeY, boolean place, float sensingRange)
 	{
 		x = placeX;
 		y = placeY;
+		sensingRange = sensingRange;
 	}
 	
 	public Cat()
 	{
 		x = 0;
 		y = 0;
+		sensingRange = 20;
 	}
 
 	/*
@@ -66,9 +71,7 @@ public class Cat
 		{
 			detected = (radius >= Math.sqrt(Math.pow((mouseY-y),2)+Math.pow((mouseX-x),2)));
 		}
-		
 		return detected;
-		
 	}
 
 
@@ -110,6 +113,11 @@ public class Cat
 	{
 		y = newY;
 	}
+	
+	public void setSensingRange(float newRange)
+	{
+		x = newRange;
+	}
 
 	public float getX()
 	{
@@ -119,6 +127,11 @@ public class Cat
 	public float getY()
 	{
 		return y;
+	}
+	
+	public float getSensingRange()
+	{
+		return sensingRange;
 	}
 
 	public Cat getParent()
