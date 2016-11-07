@@ -2,6 +2,7 @@ public class RunNoAnimation
 {
 	public RunSim run;
 	public int iterations;
+	private int files = 1;
 
 	public RunNoAnimation(int x, int y, WSNFrame fram)
 	{
@@ -33,6 +34,9 @@ public class RunNoAnimation
 				run.saveTrial(iterations++);
 			}
 		}
+		
+		run.csv.close(files);
+		files++;
 	}
 
 	public void runForGraph()
@@ -54,6 +58,9 @@ public class RunNoAnimation
 				run.resetSurface();
 			}
 		}
+		
+		run.csv.close(files);
+		files++;
 	}
 
 	public boolean graphData(String metric, int start, int end, int increment)
