@@ -35,10 +35,10 @@ public class GoAroundMethod implements IntrusionAlgorithm {
 //		hard-coding this value for now
 		intelligent = true;
 		
-		if(run.intruderSensingRange > run.sensingRange)
+		if(run.intruderSensingRange > run.sensingRange1)
 		{
 			if(intelligent)
-				radius = run.sensingRange + 2;
+				radius = run.sensingRange1 + 2;
 			else
 				radius = run.intruderSensingRange;
 		}

@@ -410,6 +410,8 @@ public class WSNFrame extends JFrame
 				int w = Integer.parseInt(tField_fieldW.getText());
 				int h = Integer.parseInt(tField_fieldH.getText());
 				
+				
+				// Defaults!
 				surface.setPreferredSize(new Dimension(w, h));
 				setOptions(true);
 				if(tField_sns1Cnt.getText().equals("")) 
@@ -417,13 +419,13 @@ public class WSNFrame extends JFrame
 				if(tField_sns1Rng.getText().equals("")) 
 					tField_sns1Rng.setText("20");
 				if(tField_cmn1Rng.getText().equals("")) 
-					tField_cmn1Rng.setText("40");
+					tField_cmn1Rng.setText("999");
 				if(tField_sns2Cnt.getText().equals("")) 
 					tField_sns2Cnt.setText("0");
 				if(tField_sns2Rng.getText().equals("")) 
-					tField_sns2Rng.setText("0");
+					tField_sns2Rng.setText("30");
 				if(tField_cmn2Rng.getText().equals("")) 
-					tField_cmn2Rng.setText("0");
+					tField_cmn2Rng.setText("999");
 				if(tField_fieldW.getText().equals("")) 
 					tField_fieldW.setText("450");
 				if(tField_fieldH.getText().equals("")) 
@@ -431,7 +433,7 @@ public class WSNFrame extends JFrame
 				if(tField_itrCnt.getText().equals("")) 
 					tField_itrCnt.setText("20");
 				if(tField_dtcThr.getText().equals(""))
-					tField_dtcThr.setText("3");
+					tField_dtcThr.setText("1");
 				btn_startSimAnim.setEnabled(true);
 				btn_startSim.setEnabled(true);
 				btn_stopSim.setEnabled(false);
@@ -540,9 +542,9 @@ public class WSNFrame extends JFrame
 				loaded = id;
 				String[] opt = surface.run.getConfig(id);
 				
-				tField_snsCnt.setText(opt[0]);
-				tField_snsRng.setText(opt[1]);
-				tField_cmnRng.setText(opt[3]);
+				tField_sns1Cnt.setText(opt[0]);
+				tField_sns1Rng.setText(opt[1]);
+				tField_cmn1Rng.setText(opt[3]);
 				tField_fieldW.setText(opt[6]);
 				tField_fieldH.setText(opt[5]);
 				tField_itrCnt.setText(opt[7]);
@@ -807,10 +809,10 @@ public class WSNFrame extends JFrame
 				int times = 0;
 				for(int sensorNum = 30; sensorNum <= 100; sensorNum+=10)
 				{
-					looper.run.sensorCount = sensorNum;
+					looper.run.sensorCount1 = sensorNum;
 					for(int sensR = 5; sensR <= 50; sensR+=5)
 					{
-						looper.run.sensingRange = sensR;
+						looper.run.sensingRange1 = sensR;
 						for(int commR = 60; commR <= 100; commR+=10)
 						{
 							looper.run.communicationRange = commR;

@@ -11,7 +11,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 	public SimultaneousAvoidance(RunSim runSim)
 	{
 		run = runSim;
-		knownCatMoves = new int[run.sensorCount][];
+		knownCatMoves = new int[run.sensorCount1][];
 		currentCat = -1;
 		quadrant = 0;
 	}
@@ -439,7 +439,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 	@Override
 	public void resetAlg() 
 	{
-		knownCatMoves = new int[run.sensorCount][];
+		knownCatMoves = new int[run.sensorCount1][];
 		currentCat = -1;
 		quadrant = 0;
 	}
