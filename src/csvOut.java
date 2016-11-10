@@ -4,20 +4,11 @@ import java.io.IOException;
 
 
 public class csvOut {
-	private String filename;
-	private String[] header;
     private String data;
-
-	public csvOut(String filename, String[] header) {
-		this.filename = filename;
-		this.header = header;
-		//this.data = "";
-	}
         
-        public csvOut(String filename) {
-            this.filename = filename;
-            //this.data = "";
-            this.header[0] = "";
+        public csvOut() {
+            this.data = "";
+           
 	}
 
 	public void append(String data) {
@@ -26,16 +17,20 @@ public class csvOut {
             System.out.print("Appended: " + data);
 	}
 	
-        public void close(int files){
+        //public void close(String name, String[] header){
+		public void close(RunSim run){
         	FileWriter fw;
+        	String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+    				"Total Distance", "Average Distance"};
+        	String name = "rs1_" + (int)run.sensingRange1 + "_rc1_" + (int)run.communicationRange + "_n1_" + run.sensorCount1 + "_rs2_" + (int)run.sensingRange2 + "_rc2_" + (int)run.communicationRange + "_n2_" + run.sensorCount2 +  "_t_" + run.detectionThreshold + "_w_" + run.w + "_h_" + run.h + "_" + run.mouseAlgorithmType;
         	
-            String filename = this.filename + new Integer(files).toString() + ".csv";
+            String filename = name + ".csv";
             try{
                 System.out.println("Opening file " + filename);
                 fw = new FileWriter(new File(filename));
                 
                 for(int i = 0; i < header.length; i++)
-                	fw.write(this.header[i] + ",");
+                	fw.write(header[i] + ",");
                 	
                 fw.write("\n");
                 

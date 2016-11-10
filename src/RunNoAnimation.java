@@ -35,8 +35,9 @@ public class RunNoAnimation
 			}
 		}
 		
-		run.csv.close(files);
-		files++;
+		run.csv.close(run);
+		//run.csv.close(files);
+		//files++;
 	}
 
 	public void runForGraph()
@@ -59,8 +60,10 @@ public class RunNoAnimation
 			}
 		}
 		
-		run.csv.close(files);
-		files++;
+		//run.csv.close(files);
+		//files++;
+		
+		run.csv.close(run);
 	}
 
 	public boolean graphData(String metric, int start, int end, int increment)
@@ -70,9 +73,9 @@ public class RunNoAnimation
 		for(int i = start; i <= end; i += increment)
 		{
 			if(metric.equals("Sensor Count"))
-				run.sensorCount = i;
+				run.sensorCount1 = i;
 			else if(metric.equals("Detection Range"))
-				run.sensingRange = i;
+				run.sensingRange1 = i;
 			else if(metric.equals("Communication Range"))
 				run.communicationRange = i;
 			else

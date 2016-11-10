@@ -21,12 +21,12 @@ public class Cat
 	private boolean detected = false;
 
 // polymorphism for allowing random placement of place
-	public Cat(float totalX, float totalY, float sensingRange)
+	public Cat(float totalX, float totalY, float p_sensingRange)
 	{
 		Random rand = new Random();
 		x = rand.nextFloat()*totalX;
 		y = rand.nextFloat()*totalY;
-		sensingRange = sensingRange;
+		sensingRange = p_sensingRange;
 	}
 
 //	polymorphism for copying some stuff

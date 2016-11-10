@@ -13,20 +13,20 @@ public class RunSim
 	// mouse object
 	public Mouse mouse = new Mouse();
 	
-	//ZACK SHIT
+	//ZACK
 	int numSuccesses = 0;
 	double totalMouseDistance = 0.0;
 	
-	//David Shit
+	//David
     public csvOut csv;
 	
 	// information about the simulation
 	public int sensorCount1 = 50;
 	public int sensorCount2 = 0;
 	public float sensingRange1 = 20;
-	public float sensingRange2 = 0;
-	public float communicationRange = 40;
-	public int detectionThreshold = 3;
+	public float sensingRange2 = 40;
+	public float communicationRange = 999;
+	public int detectionThreshold = 1;
 	public float intruderSensingRange = 60;
 	
 	// panel size
@@ -50,9 +50,10 @@ public class RunSim
 
 	public RunSim(int x, int y, WSNFrame frame)
 	{
-		String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
-				"Total Distance", "Average Distance"};
-		csv = new csvOut("output", header);		
+		//String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+				//"Total Distance", "Average Distance"};
+		//csv = new csvOut("output", header);		
+		csv = new csvOut();
 		
 		wsnFrame = frame;
 		cats = new Cat[sensorCount1 + sensorCount2];
@@ -64,9 +65,9 @@ public class RunSim
 
 	public RunSim(int id, WSNFrame frame)
 	{
-		String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
-				"Total Distance", "Average Distance"};
-		csv = new csvOut("output", header);	
+		//String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+				//"Total Distance", "Average Distance"};
+		//csv = new csvOut("output", header);	
 		
 		wsnFrame = frame;
 		// recallSimulation(id);
@@ -94,7 +95,7 @@ public class RunSim
 		restartSimulation(true);
 	}
 
-	public int findBiggestSensingRange()
+	public float findBiggestSensingRange()
 	{
 		if(sensingRange1 >= sensingRange2)
 			return sensingRange1;
@@ -106,15 +107,17 @@ public class RunSim
 	public void resetSurface()
 	{
 		Random rand = new Random();
-		cats = new Cat[sensorCount1 + sensorCount2];
+		cats = new Cat[sensorCount1 + sensorCount2 + 1];
 		cats[0] = new Cat(w,(int)h/2+1,true, 1);
 		for(int i = 1; i <= sensorCount1; i++)
 		{
 			cats[i] = new Cat(w, h, sensingRange1);
+			//cats[i] = new Cat(w, h, 15);
 		}
-		for(int 1 = sensorCount1 + 1; 1 <= sensorCount1 + sensorCount2; 1++)
+		for(int i = sensorCount1 + 1; i <= sensorCount1 + sensorCount2; i++)
 		{
 			cats[i] = new Cat(w, h, sensingRange2);
+			//cats[i] = new Cat(w, h, 30);
 		}
 
 		connectAllCats();
@@ -222,9 +225,12 @@ public class RunSim
 	private void connectAllCats()
 	{
 		// System.out.println(Arrays.toString(cats) + " "+ cats.length+ " " + sensorCount);
-		for (Cat n : cats)
+		//for (Cat n : cats)
 			// n.distance = INFINITY
-			n.setParent(null);
+			//n.setParent(new Cat());
+		for (int i = 1; i < sensorCount1 + sensorCount2; i++){
+			cats[i].setParent(null);
+		}
 
 		// create empty queue Q
 		// LinkedQueue<Cat> catQ = new LinkedQueue();
@@ -347,7 +353,7 @@ public class RunSim
 					"animated, times_ran, field_height, field_width, intruder_size, " +
 					"intruder_start, max_iterations, threshold, base_sensor_loc) " +
 					
-					"VALUES ("+sensorCount+", "+sensingRange+", "+"NULL"+", '"+mouseAlgorithmType+"', "+
+					"VALUES ("+sensorCount1+", "+sensingRange1+", "+"NULL"+", '"+mouseAlgorithmType+"', "+
 					communicationRange+", '"+detectionAlgorithm+"', "+(int)intruderSensingRange+", "+"NULL"+", "+"NULL"+", "+
 					h+", "+w+", "+"NULL"+", "+"NULL"+", "+maxIterations+", "+detectionThreshold+", "+"NULL"+");";
 			
@@ -455,8 +461,8 @@ public class RunSim
 		
 		String[] r = new String[opts.size()];
 		r = opts.toArray(r);
-		sensorCount = Integer.parseInt(r[0]);
-		sensingRange = Integer.parseInt(r[1]);
+		sensorCount1 = Integer.parseInt(r[0]);
+		sensingRange1 = Integer.parseInt(r[1]);
 		mouseAlgorithmType = r[2];
 		communicationRange = Integer.parseInt(r[3]);
 		detectionAlgorithm = r[4];
@@ -544,8 +550,8 @@ public class RunSim
 		
 		//
 		double mouseDist = mouse.getX();
-/*Zack Shit*/	if(mouseDist < 0)
-					mouseDist = 0; /**/
+		if(mouseDist < 0)
+			mouseDist = 0; /**/
 		int start = mouse.getTravels().get(0).y;
 		wsnFrame.printToLog("Trial #"+iteration+": Success="+mouseSuccess()+"; Distance Traveled: "+mouseDist+"; Successes = " + numSuccesses + 
 				"; Total Distance: " + totalMouseDistance + "; Average Distance: " + (totalMouseDistance / (iteration + 1)) + "\n");
@@ -727,7 +733,7 @@ public class RunSim
 			  "detection_range,"+
 			  "communication_range,"+
 			  "intruder_detect_range,"+
-			  "success_prob) VALUES ("+sensorCount+","+sensingRange+","+communicationRange+","+intruderSensingRange+","+prob+")";
+			  "success_prob) VALUES ("+sensorCount1+","+sensingRange1+","+communicationRange+","+intruderSensingRange+","+prob+")";
 			stmt.executeUpdate(sql);
 			c.close();
 		}
