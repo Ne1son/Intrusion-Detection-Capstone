@@ -55,6 +55,7 @@ public class WSNFrame extends JFrame
 	private JFormattedTextField tField_sns2Cnt;		// Sensor count text field: Sensor type 2
 	private JFormattedTextField tField_sns2Rng;		// Sensing range text field: Sensor type 2
 	private JFormattedTextField tField_cmn2Rng; 	// Communication range text field: Sensor type 2
+	private JFormattedTextField tField_itrSns;              // Intruder sensing range text field     
 	private JFormattedTextField tField_fieldW;		// Field width text field
 	private JFormattedTextField tField_fieldH;		// Field height text field
 	private JTextField 			tField_algPar;		// Algorithm parameters
@@ -179,10 +180,10 @@ public class WSNFrame extends JFrame
 		scrPnl_sim_opt.setViewportView(pnl_sim_opt);
 		
 		btn_startSimAnim = new JButton("Start Simulation w/ Animation");
-		btn_startSimAnim.setEnabled(false);
+		btn_startSimAnim.setEnabled(true);
 
 		btn_startSim = new JButton("Start Simulation");
-		btn_startSim.setEnabled(false);
+		btn_startSim.setEnabled(true);
 		
 		btn_stopSim = new JButton("Stop Simulation");
 		btn_stopSim.setEnabled(false);
@@ -200,6 +201,8 @@ public class WSNFrame extends JFrame
 				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC
 			},
 			new RowSpec[] {
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
@@ -269,6 +272,14 @@ public class WSNFrame extends JFrame
 		choice_itrAlg.add("GoAroundMethod");
 		choice_itrAlg.add("SimultaneousAvoidance");
 		choice_itrAlg.add("FollowTheGap2");
+		choice_itrAlg.add("All");
+		
+		JLabel lbl_itrSns = new JLabel("Intruder Sensing Range:");
+		
+		// Intruder sensing range text field
+		tField_itrSns = new JFormattedTextField(intFormat);
+		tField_itrSns.setText("");
+		tField_itrSns.setColumns(8);
 		
 		JLabel lbl_algPar = new JLabel("Parameters:");
 		
@@ -426,6 +437,8 @@ public class WSNFrame extends JFrame
 					tField_sns2Rng.setText("30");
 				if(tField_cmn2Rng.getText().equals("")) 
 					tField_cmn2Rng.setText("200");
+				if(tField_itrSns.getText().equals(""))
+					tField_itrSns.setText("25");
 				if(tField_fieldW.getText().equals("")) 
 					tField_fieldW.setText("450");
 				if(tField_fieldH.getText().equals("")) 
@@ -496,8 +509,8 @@ public class WSNFrame extends JFrame
 		
 		btn_updateSim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				surface.run.saveConfig();
-				saving = updateConfigBox() + 1;
+				//surface.run.saveConfig();
+				//saving = updateConfigBox() + 1;
 				surface.iterations = getIterationsNum()+5;
 			}
 		});
@@ -508,9 +521,9 @@ public class WSNFrame extends JFrame
 				surface.iterations = getIterationsNum()+5;
 				surface.run.resetSurface();
 				looper.run.resetSurface();
-				surface.run.saveConfig();
-				saving = updateConfigBox();
-				looper.run.getConfig(saving++);
+				//surface.run.saveConfig();
+				//saving = updateConfigBox();
+				//looper.run.getConfig(saving++);
 			}
 		});
 		btn_updateSns.addActionListener(updateBtnListener);
@@ -598,13 +611,15 @@ public class WSNFrame extends JFrame
 		tPnl_updSim.add(tField_cmn2Rng, "4, 10, fill, default");
 		tPnl_updSim.add(lbl_itrAlg,    "2, 12, fill, default");
 		tPnl_updSim.add(choice_itrAlg, "4, 12, fill, default");
-		tPnl_updSim.add(lbl_algPar,    "2, 14, fill, default");
-		tPnl_updSim.add(tField_algPar, "4, 14, fill, default");
-		tPnl_updSim.add(lbl_dtcTyp,    "2, 16, fill, default");		
-		tPnl_updSim.add(choice_dtcTyp, "4, 16, fill, default");
-		tPnl_updSim.add(lbl_dtcThr,    "2, 18, fill, default"); 
-		tPnl_updSim.add(tField_dtcThr, "4, 18, fill, default");
-		tPnl_updSim.add(btn_updateSim, "2, 20, 3, 1");
+		tPnl_updSim.add(lbl_itrSns,    "2, 14, fill, default");		
+		tPnl_updSim.add(tField_itrSns, "4, 14, fill, default");
+		tPnl_updSim.add(lbl_algPar,    "2, 16, fill, default");
+		tPnl_updSim.add(tField_algPar, "4, 16, fill, default");
+		tPnl_updSim.add(lbl_dtcTyp,    "2, 18, fill, default");		
+		tPnl_updSim.add(choice_dtcTyp, "4, 18, fill, default");
+		tPnl_updSim.add(lbl_dtcThr,    "2, 20, fill, default"); 
+		tPnl_updSim.add(tField_dtcThr, "4, 20, fill, default");
+		tPnl_updSim.add(btn_updateSim, "2, 22, 3, 1");
 		
 		pnl_sim_opt.add(tPnl_updSns, "2, 12, 3, 1, fill, fill");
 		
@@ -887,6 +902,7 @@ public class WSNFrame extends JFrame
 			"T2 Sensing Range",
 			"T2 Communication Range",
 			"Intrusion Algorithm",
+			"Intruder Sensing Range",
 			"Detection Type",
 			"Detection Threshold",
 			"T1 Sensor Count",
@@ -902,6 +918,7 @@ public class WSNFrame extends JFrame
 			tField_sns2Rng.getText(),
 			tField_cmn2Rng.getText(),
 			choice_itrAlg.getSelectedItem(),
+			tField_itrSns.getText(),
 			choice_dtcTyp.getSelectedItem(),
 			tField_dtcThr.getText(),
 			tField_sns1Cnt.getText(),
@@ -944,6 +961,7 @@ public class WSNFrame extends JFrame
 		tField_fieldW.setEnabled(enabled);
 		tField_fieldH.setEnabled(enabled);
 		tField_itrCnt.setEnabled(enabled);
+		tField_itrSns.setEnabled(enabled);
 		tField_dtcThr.setEnabled(enabled);
 		tField_algPar.setEnabled(enabled);
 		choice_itrAlg.setEnabled(enabled);
@@ -989,6 +1007,9 @@ public class WSNFrame extends JFrame
 	
 	// Returns a parsed float for the Type 2 sensor communication range
 	public int getT2CommunicationRange() { return Integer.parseInt( formatNumberString(tField_cmn2Rng.getText()) ); }
+	
+	// Returns a parsed float for the intruder sensing range
+	public int getIntruderSensingRange() { return Integer.parseInt( formatNumberString(tField_itrSns.getText()) ); }
 
 	// Returns a parsed int for the detection threshold
 	public int getDetectionThreshold() { return Integer.parseInt( formatNumberString(tField_dtcThr.getText()) ); }
