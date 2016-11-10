@@ -50,9 +50,10 @@ public class RunSim
 
 	public RunSim(int x, int y, WSNFrame frame)
 	{
-		String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
-				"Total Distance", "Average Distance"};
-		csv = new csvOut("output", header);		
+		//String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+				//"Total Distance", "Average Distance"};
+		//csv = new csvOut("output", header);		
+		csv = new csvOut();
 		
 		wsnFrame = frame;
 		cats = new Cat[sensorCount1 + sensorCount2];
@@ -64,9 +65,9 @@ public class RunSim
 
 	public RunSim(int id, WSNFrame frame)
 	{
-		String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
-				"Total Distance", "Average Distance"};
-		csv = new csvOut("output", header);	
+		//String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+				//"Total Distance", "Average Distance"};
+		//csv = new csvOut("output", header);	
 		
 		wsnFrame = frame;
 		// recallSimulation(id);
@@ -549,8 +550,8 @@ public class RunSim
 		
 		//
 		double mouseDist = mouse.getX();
-/*Zack Shit*/	if(mouseDist < 0)
-					mouseDist = 0; /**/
+		if(mouseDist < 0)
+			mouseDist = 0; /**/
 		int start = mouse.getTravels().get(0).y;
 		wsnFrame.printToLog("Trial #"+iteration+": Success="+mouseSuccess()+"; Distance Traveled: "+mouseDist+"; Successes = " + numSuccesses + 
 				"; Total Distance: " + totalMouseDistance + "; Average Distance: " + (totalMouseDistance / (iteration + 1)) + "\n");

@@ -419,13 +419,13 @@ public class WSNFrame extends JFrame
 				if(tField_sns1Rng.getText().equals("")) 
 					tField_sns1Rng.setText("20");
 				if(tField_cmn1Rng.getText().equals("")) 
-					tField_cmn1Rng.setText("999");
+					tField_cmn1Rng.setText("200");
 				if(tField_sns2Cnt.getText().equals("")) 
 					tField_sns2Cnt.setText("0");
 				if(tField_sns2Rng.getText().equals("")) 
 					tField_sns2Rng.setText("30");
 				if(tField_cmn2Rng.getText().equals("")) 
-					tField_cmn2Rng.setText("999");
+					tField_cmn2Rng.setText("200");
 				if(tField_fieldW.getText().equals("")) 
 					tField_fieldW.setText("450");
 				if(tField_fieldH.getText().equals("")) 

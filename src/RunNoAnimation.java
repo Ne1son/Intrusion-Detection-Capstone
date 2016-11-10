@@ -35,8 +35,9 @@ public class RunNoAnimation
 			}
 		}
 		
-		run.csv.close(files);
-		files++;
+		run.csv.close(run);
+		//run.csv.close(files);
+		//files++;
 	}
 
 	public void runForGraph()
@@ -59,8 +60,10 @@ public class RunNoAnimation
 			}
 		}
 		
-		run.csv.close(files);
-		files++;
+		//run.csv.close(files);
+		//files++;
+		
+		run.csv.close(run);
 	}
 
 	public boolean graphData(String metric, int start, int end, int increment)
