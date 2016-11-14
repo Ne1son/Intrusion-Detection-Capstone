@@ -35,7 +35,7 @@ public class FollowTheGap2 implements IntrusionAlgorithm
 		double baseAngle;
 		for(Cat cat : run.cats)
 		{
-			if(cat.hasParent() && run.intruderSensingRange >= Math.sqrt(Math.pow((cat.getY()-y),2)+Math.pow((cat.getX()-x),2)) && x < cat.getX())
+			if(cat.isOn() && run.intruderSensingRange >= Math.sqrt(Math.pow((cat.getY()-y),2)+Math.pow((cat.getX()-x),2)) && x < cat.getX())
 			{
 				baseAngle = Math.atan((y-cat.getY())/(cat.getX()-x));
 				if(catArray.size() == 0)

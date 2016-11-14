@@ -80,10 +80,10 @@ public class Surface extends JPanel implements ActionListener
 // draws the run.communication radii of all the run.cats in the network
 	private void drawCatsCommunication(Color color, Graphics2D gd)
 	{
-		run.cats[0].drawCatCommunication(color, run.communicationRange, gd);
+		run.cats[0].drawCatCommunication(color, run.communicationRange1, gd);
 		for(int i = 1; i < run.cats.length; i++)
-			if(run.cats[i].hasParent())
-				run.cats[i].drawCatCommunication(color, run.communicationRange, gd);
+			if(run.cats[i].isOn())
+				run.cats[i].drawCatCommunication(color, run.communicationRange1, gd);
 	}
 
 // draws all connections of all run.cats in the network
@@ -135,7 +135,7 @@ public class Surface extends JPanel implements ActionListener
 				if (i != j)
 				{
 					double dist = Point.distance(run.cats[i].getX(), run.cats[i].getY(), run.cats[j].getX(), run.cats[j].getY());
-					if (dist <= run.communicationRange)
+					if (dist <= run.communicationRange1)
 					{
 						gd.drawLine((int)run.cats[i].getX(), (int)run.cats[i].getY(), (int)run.cats[j].getX(), (int)run.cats[j].getY());
 					}
@@ -193,7 +193,7 @@ public class Surface extends JPanel implements ActionListener
 	}
 	
 // draws the path from the node that detected the mouse to the base node
-	private void drawDetectionPath(int i, Graphics2D gd)
+	/*private void drawDetectionPath(int i, Graphics2D gd)
 	{
 		Cat u = run.cats[i];
 		gd.setPaint(Color.black);
@@ -211,7 +211,7 @@ public class Surface extends JPanel implements ActionListener
 		}
 		run.cats[0].drawCat(Color.black,10,gd);
 	}
-
+*/
 	private boolean drawSimulationIteration(Graphics2D gd, int caught)
 	{
 		gd.setPaint(Color.black);

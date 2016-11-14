@@ -25,7 +25,8 @@ public class RunSim
 	public int sensorCount2 = 0;
 	public float sensingRange1 = 20;
 	public float sensingRange2 = 40;
-	public float communicationRange = 999;
+	public float communicationRange1 = 999;
+        public float communicationRange2 = 999;
 	public int detectionThreshold = 1;
 	public float intruderSensingRange = 60;
 	
@@ -82,7 +83,8 @@ public class RunSim
 		sensorCount2 = wsnFrame.getT2SensorCount();
 		sensingRange1 = wsnFrame.getT1SensingRange();
 		sensingRange2 = wsnFrame.getT2SensingRange();
-		communicationRange = wsnFrame.getT1CommunicationRange();
+		communicationRange1 = wsnFrame.getT1CommunicationRange();
+                communicationRange2 = wsnFrame.getT2CommunicationRange();
 		detectionThreshold = wsnFrame.getDetectionThreshold();
 		mouseAlgorithmType = wsnFrame.getAlgorithmType();
 		intruderSensingRange = wsnFrame.getIntruderSensingRange();
@@ -168,7 +170,7 @@ public class RunSim
 	private int detect(double mouseX, double mouseY)
 	{
 		for(int i = 0; i < cats.length; i++)
-			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent())
+			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].isOn())
 				return i;
 		return -1;
 	}
@@ -181,7 +183,7 @@ public class RunSim
 		
 		for (int i=0; i<cats.length; i++)
 		{
-			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent())
+			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].isOn())
 			{
 				boolean used = false;
 				for (int j=0; j<caughtArray.length; j++)
@@ -211,7 +213,7 @@ public class RunSim
 		
 		for (int i=0; i<cats.length; i++)
 		{
-			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent())
+			if(cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].isOn())
 			{
 				caughtArray[n++] = i;
 				if(n >= detectionThreshold)
@@ -230,7 +232,7 @@ public class RunSim
 			// n.distance = INFINITY
 			//n.setParent(new Cat());
 		for (int i = 1; i < sensorCount1 + sensorCount2; i++){
-			cats[i].setParent(null);
+			cats[i].turnOff();
 		}
 
 		// create empty queue Q
@@ -248,17 +250,32 @@ public class RunSim
                     u = catQ.removeLast();
                     // for each node n that is adjacent to u:
                     // for(int i = 1; i < cats.length; i++)
-                    for(int i = 1; i < sensorCount1 + sensorCount2; i++)
+                    for(int i = 1; i <= sensorCount1; i++)
                     {
                                       
-                        if( !cats[i].hasParent() &&
-                            Math.abs(u.getX()-cats[i].getX()) < communicationRange &&
-                            Math.abs(u.getY()-cats[i].getY()) < communicationRange &&
-                            Math.sqrt(Math.pow((u.getX()-cats[i].getX()),2)+Math.pow((u.getY()-cats[i].getY()),2)) < communicationRange)
+                        if( !cats[i].isOn() &&
+                            Math.abs(u.getX()-cats[i].getX()) < communicationRange1 &&
+                            Math.abs(u.getY()-cats[i].getY()) < communicationRange1 &&
+                            Math.sqrt(Math.pow((u.getX()-cats[i].getX()),2)+Math.pow((u.getY()-cats[i].getY()),2)) < communicationRange1)
                             { 
                                 // if cats[i].distance == INFINITY:
                                 // cats[i].parent = u
-                                cats[i].setParent(u);
+                                cats[i].turnOn();
+                                // catQ.enqueue(n)
+                                catQ.addFirst(cats[i]);
+                            }
+                        }
+                    for(int i = sensorCount1 + 1; i <= sensorCount1 + sensorCount2; i++)
+                    {
+                                      
+                        if( !cats[i].isOn() &&
+                            Math.abs(u.getX()-cats[i].getX()) < communicationRange2 &&
+                            Math.abs(u.getY()-cats[i].getY()) < communicationRange2 &&
+                            Math.sqrt(Math.pow((u.getX()-cats[i].getX()),2)+Math.pow((u.getY()-cats[i].getY()),2)) < communicationRange2)
+                            { 
+                                // if cats[i].distance == INFINITY:
+                                // cats[i].parent = u
+                                cats[i].turnOn();
                                 // catQ.enqueue(n)
                                 catQ.addFirst(cats[i]);
                             }
@@ -355,7 +372,7 @@ public class RunSim
 					"intruder_start, max_iterations, threshold, base_sensor_loc) " +
 					
 					"VALUES ("+sensorCount1+", "+sensingRange1+", "+"NULL"+", '"+mouseAlgorithmType+"', "+
-					communicationRange+", '"+detectionAlgorithm+"', "+(int)intruderSensingRange+", "+"NULL"+", "+"NULL"+", "+
+					communicationRange1+", '"+detectionAlgorithm+"', "+(int)intruderSensingRange+", "+"NULL"+", "+"NULL"+", "+
 					h+", "+w+", "+"NULL"+", "+"NULL"+", "+maxIterations+", "+detectionThreshold+", "+"NULL"+");";
 			
 
@@ -465,7 +482,7 @@ public class RunSim
 		sensorCount1 = Integer.parseInt(r[0]);
 		sensingRange1 = Integer.parseInt(r[1]);
 		mouseAlgorithmType = r[2];
-		communicationRange = Integer.parseInt(r[3]);
+		communicationRange1 = Integer.parseInt(r[3]);
 		detectionAlgorithm = r[4];
 		h = Integer.parseInt(r[5]);
 		w = Integer.parseInt(r[6]);
@@ -734,7 +751,7 @@ public class RunSim
 			  "detection_range,"+
 			  "communication_range,"+
 			  "intruder_detect_range,"+
-			  "success_prob) VALUES ("+sensorCount1+","+sensingRange1+","+communicationRange+","+intruderSensingRange+","+prob+")";
+			  "success_prob) VALUES ("+sensorCount1+","+sensingRange1+","+communicationRange1+","+intruderSensingRange+","+prob+")";
 			stmt.executeUpdate(sql);
 			c.close();
 		}

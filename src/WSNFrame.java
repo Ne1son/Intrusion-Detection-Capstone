@@ -830,7 +830,7 @@ public class WSNFrame extends JFrame
 						looper.run.sensingRange1 = sensR;
 						for(int commR = 60; commR <= 100; commR+=10)
 						{
-							looper.run.communicationRange = commR;
+							looper.run.communicationRange1 = commR;
 							for(int intSenR = 30; intSenR <= 70; intSenR+=10)
 							{
 								looper.run.intruderSensingRange = intSenR;

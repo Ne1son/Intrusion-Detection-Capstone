@@ -12,7 +12,7 @@ public class Cat
 	private float sensingRange = 0;
 
 	// pointer to the cat that connects this cat to the base node
-	private Cat parent = null;
+	private boolean on = false;
 
 	private int simId = -1;
 
@@ -36,7 +36,7 @@ public class Cat
 		y = (float)placeY;
 		sensingRange = sensingRange;
 		if(place)
-			parent = new Cat();
+			on = true;
 	}
 	
 // polymorphism for setting the exact place of the cat
@@ -78,7 +78,7 @@ public class Cat
 	// drawing method for if the cat is in the network or not
 	public void drawCat(Color color, Color connectedColor, float radius, Graphics2D gd)
 	{
-		if(hasParent())
+		if(on)
 			gd.setPaint(connectedColor);
 		else
 			gd.setPaint(color);
@@ -134,14 +134,14 @@ public class Cat
 		return sensingRange;
 	}
 
-	public Cat getParent()
+        public void turnOff()
+        {
+            on = false;
+        }
+        
+	public void turnOn()
 	{
-		return parent;
-	}
-
-	public void setParent(Cat cat)
-	{
-		parent = cat;
+            on = true;
 	}
 
 	public void setStepSize(float step)
@@ -155,9 +155,9 @@ public class Cat
 	}
 
 // determines if the cat has a parent or not
-	public boolean hasParent()
+	public boolean isOn()
 	{
-		return parent != null;
+		return on;
 	}
 
 // possible method for cat movement algorithms
@@ -167,6 +167,6 @@ public class Cat
 // toString for testing purposes
 	public String toString()
 	{
-		return x+", "+y+", "+hasParent()+" | ";
+		return x+", "+y+", "+isOn()+" | ";
 	}
 }

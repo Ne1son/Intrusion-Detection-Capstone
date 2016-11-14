@@ -35,7 +35,7 @@ public class FollowTheGapMethod implements IntrusionAlgorithm
 		double edgeAngle;
 		for(Cat cat : runSim.cats)
 		{
-			if(cat.hasParent() && runSim.intruderSensingRange >= Math.sqrt(Math.pow((cat.getY()-y),2)+Math.pow((cat.getX()-x),2)) && x < cat.getX())
+			if(cat.isOn() && runSim.intruderSensingRange >= Math.sqrt(Math.pow((cat.getY()-y),2)+Math.pow((cat.getX()-x),2)) && x < cat.getX())
 			{
 				baseAngle = Math.atan((y-cat.getY())/(cat.getX()-x));
 				edgeAngle = Math.atan(cat.getSensingRange()/(Math.sqrt(Math.pow((cat.getY()-y),2)+Math.pow((cat.getX()-x),2))));
