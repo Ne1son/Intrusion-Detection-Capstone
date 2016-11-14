@@ -85,6 +85,7 @@ public class RunSim
 		communicationRange = wsnFrame.getT1CommunicationRange();
 		detectionThreshold = wsnFrame.getDetectionThreshold();
 		mouseAlgorithmType = wsnFrame.getAlgorithmType();
+		intruderSensingRange = wsnFrame.getIntruderSensingRange();
 		detectionAlgorithm = wsnFrame.getDetectionType();
 		maxIterations = wsnFrame.getIterationsNum();
 		w = wsnFrame.getFieldWidth();
