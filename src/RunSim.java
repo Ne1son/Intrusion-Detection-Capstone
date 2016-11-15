@@ -234,7 +234,7 @@ public class RunSim {
             u = catQ.removeLast();
                     // for each node n that is adjacent to u:
             // for(int i = 1; i < cats.length; i++)
-            for (int i = 1; i < sensorCount1 + sensorCount2; i++) {
+            for (int i = 1; i <= sensorCount1 + sensorCount2; i++) {
 
                 if (!cats[i].hasParent()
                         && Math.abs(u.getX() - cats[i].getX()) < communicationRange
