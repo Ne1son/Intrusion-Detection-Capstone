@@ -78,12 +78,16 @@ public class Surface extends JPanel implements ActionListener
 	}
 
 // draws the run.communication radii of all the run.cats in the network
-	private void drawCatsCommunication(Color color, Graphics2D gd)
+	private void drawCatsCommunication(Color color1, Color color2, Graphics2D gd)
 	{
-		run.cats[0].drawCatCommunication(color, run.communicationRange1, gd);
-		for(int i = 1; i < run.cats.length; i++)
+		run.cats[0].drawCatCommunication(color1, run.communicationRange1, gd);
+		for(int i = 1; i <= run.sensorCount1; i++)
 			if(run.cats[i].isOn())
-				run.cats[i].drawCatCommunication(color, run.communicationRange1, gd);
+				run.cats[i].drawCatCommunication(color1, run.communicationRange1, gd);
+				
+		for(int i = (run.sensorCount1 + 1); i <= run.cats.length; i++)
+			if(run.cats[i].isOn())
+				run.cats[i].drawCatCommunication(color2, run.communicationRange2, gd);
 	}
 
 // draws all connections of all run.cats in the network
@@ -221,7 +225,7 @@ public class Surface extends JPanel implements ActionListener
 		gd.setStroke(new BasicStroke(1));
 		
 		if (drawComRng)
-			drawCatsCommunication(new Color(100,100,100,100), gd);
+			drawCatsCommunication(new Color(100,100,100,100), new Color(50,50,50,100), gd);
 		
 		if (drawComLines)
 			drawConnections(Color.BLACK, gd);
