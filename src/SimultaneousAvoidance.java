@@ -11,7 +11,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 	public SimultaneousAvoidance(RunSim runSim)
 	{
 		run = runSim;
-		knownCatMoves = new int[run.sensorCount1][];
+		knownCatMoves = new int[run.cats.length][];
 		currentCat = -1;
 		quadrant = 0;
 	}
@@ -40,6 +40,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 		for(int i = 0; i < run.cats.length; i++)
 		{
 			dist = Point.distance(x,y,run.cats[i].getX(),run.cats[i].getY());
+			run.intruderSensingRange = run.cats[i].getSensingRange() + 1;
 			if(run.cats[i].hasParent() &&  dist <= run.intruderSensingRange)
 			{
 				if(numFront == 0 && Point.distance(x+1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
@@ -55,7 +56,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 					numBack = i ;
 			}
 			
-			if(dist < run.intruderSensingRange && knownCatMoves[i] == null)
+			if(dist <= run.intruderSensingRange && knownCatMoves[i] == null)
 			{
 				knownCatMoves[i] = new int[4];
 				knownCatMoves[i][0] = -2;
@@ -439,7 +440,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 	@Override
 	public void resetAlg() 
 	{
-		knownCatMoves = new int[run.sensorCount1][];
+		knownCatMoves = new int[run.cats.length][];
 		currentCat = -1;
 		quadrant = 0;
 	}

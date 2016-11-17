@@ -71,7 +71,7 @@ public class Surface extends JPanel implements ActionListener
 		//System.out.print(run.cats[25].getSensingRange() + "\n");
 		for(int i = 1; i < run.cats.length; i++){
 			run.cats[i].drawCat(new Color(255,0,0,drawSnsOpacity), new Color(0,0,255,drawSnsOpacity), run.cats[i].getSensingRange(), gd);
-			run.cats[0].drawCat(new Color(0,255,0,drawSnsOpacity), run.cats[0].getSensingRange(), gd);
+			run.cats[0].drawCat(new Color(0,255,0,drawSnsOpacity), 20, gd);
 		}
 		// 	run.cats[i].drawCat(Color.red, Color.blue, run.sensingRange, gd);
 		// run.cats[0].drawCat(Color.green, run.sensingRange, gd);
