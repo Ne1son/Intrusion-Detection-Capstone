@@ -1,6 +1,6 @@
 import java.awt.Point;
 
-public class SimultaneousAvoidance implements IntrusionAlgorithm {
+public class SimultaneousAvoidance2 implements IntrusionAlgorithm {
 
 	private RunSim run;
 	private int[][] knownCatMoves;
@@ -8,7 +8,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 	private byte quadrant;
 	private boolean onWall = false;
 	
-	public SimultaneousAvoidance(RunSim runSim)
+	public SimultaneousAvoidance2(RunSim runSim)
 	{
 		run = runSim;
 		knownCatMoves = new int[run.cats.length][];
@@ -41,7 +41,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 		{
 			dist = Point.distance(x,y,run.cats[i].getX(),run.cats[i].getY());
 			run.intruderSensingRange = run.cats[i].getSensingRange() + 1;
-			if(run.cats[i].isOn() &&  dist <= run.intruderSensingRange)
+			if(dist <= run.intruderSensingRange)
 			{
 				if(numFront == 0 && Point.distance(x+1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
 					numFront = i;

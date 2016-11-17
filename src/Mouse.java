@@ -48,6 +48,10 @@ public class Mouse
 			case "SimultaneousAvoidance":
 				alg = new SimultaneousAvoidance(run);
 				break;
+				
+			case "SimultaneousAvoidance2":
+				alg = new SimultaneousAvoidance2(run);
+				break;
 			
 			case "FollowTheGap2":
 				alg = new FollowTheGap2(run);
