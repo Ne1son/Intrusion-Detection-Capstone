@@ -90,9 +90,10 @@ public class Surface extends JPanel implements ActionListener
 	private void drawCatsCommunication(Color color, Graphics2D gd)
 	{
 		run.cats[0].drawCatCommunication(color, run.communicationRange1, gd); // Home base always has comRange 1...
-		for(int i = 1; i < run.cats.length; i++)
+		for(int i = 1; i < run.cats.length; i++){
 			if(run.cats[i].isOn())
 				run.cats[i].drawCatCommunication(color, run.cats[i].getCommunicationRange(), gd);
+		}
 	}
 
 // draws all connections of all run.cats in the network
