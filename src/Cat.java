@@ -10,9 +10,10 @@ public class Cat
 	private float x = 0;
 	private float y = 0;
 	private float sensingRange = 0;
+	private float communicationRange = 0;
 
 	// pointer to the cat that connects this cat to the base node
-	private Cat parent = null;
+	private boolean on = false;
 
 	private int simId = -1;
 
@@ -21,30 +22,33 @@ public class Cat
 	private boolean detected = false;
 
 // polymorphism for allowing random placement of place
-	public Cat(float totalX, float totalY, float p_sensingRange)
+	public Cat(float totalX, float totalY, float p_sensingRange, float comRange)
 	{
 		Random rand = new Random();
 		x = rand.nextFloat()*totalX;
 		y = rand.nextFloat()*totalY;
 		sensingRange = p_sensingRange;
+		communicationRange = comRange;
 	}
 
 //	polymorphism for copying some stuff
-	public Cat(double placeX, double placeY, boolean place, boolean insideNetwork, float sensingRange)
+	public Cat(double placeX, double placeY, boolean place, boolean insideNetwork, float sensingRange, float comRange)
 	{
 		x = (float)placeX;
 		y = (float)placeY;
 		sensingRange = sensingRange;
+		communicationRange = comRange;
 		if(place)
-			parent = new Cat();
+			on = true;
 	}
 	
 // polymorphism for setting the exact place of the cat
-	public Cat(float placeX, float placeY, boolean place, float sensingRange)
+	public Cat(float placeX, float placeY, boolean place, float sensingRange, float comRange)
 	{
 		x = placeX;
 		y = placeY;
 		sensingRange = sensingRange;
+		communicationRange = comRange;
 	}
 	
 	public Cat()
@@ -52,6 +56,7 @@ public class Cat
 		x = 0;
 		y = 0;
 		sensingRange = 20;
+		communicationRange = 200;
 	}
 
 	/*
@@ -78,7 +83,7 @@ public class Cat
 	// drawing method for if the cat is in the network or not
 	public void drawCat(Color color, Color connectedColor, float radius, Graphics2D gd)
 	{
-		if(hasParent())
+		if(on)
 			gd.setPaint(connectedColor);
 		else
 			gd.setPaint(color);
@@ -133,15 +138,20 @@ public class Cat
 	{
 		return sensingRange;
 	}
-
-	public Cat getParent()
+	
+	public float getCommunicationRange()
 	{
-		return parent;
+		return communicationRange;
 	}
 
-	public void setParent(Cat cat)
+	public void turnOff()
 	{
-		parent = cat;
+		on = false;
+	}
+
+	public void turnOn()
+	{
+		on = true;
 	}
 
 	public void setStepSize(float step)
@@ -155,9 +165,9 @@ public class Cat
 	}
 
 // determines if the cat has a parent or not
-	public boolean hasParent()
+	public boolean isOn()
 	{
-		return parent != null;
+		return on;
 	}
 
 // possible method for cat movement algorithms
@@ -167,6 +177,6 @@ public class Cat
 // toString for testing purposes
 	public String toString()
 	{
-		return x+", "+y+", "+hasParent()+" | ";
+		return x+", "+y+", "+isOn()+" | ";
 	}
 }

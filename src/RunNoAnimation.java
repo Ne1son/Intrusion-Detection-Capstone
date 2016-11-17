@@ -64,7 +64,7 @@ public class RunNoAnimation {
             } else if (metric.equals("Detection Range")) {
                 run.sensingRange1 = i;
             } else if (metric.equals("Communication Range")) {
-                run.communicationRange = i;
+                run.communicationRange1 = i;
             } else {
                 // System.out.println("Return false.");
                 return false;

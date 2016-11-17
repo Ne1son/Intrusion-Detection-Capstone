@@ -22,7 +22,7 @@ public class csvOut {
         	FileWriter fw;
         	String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
     				"Total Distance", "Average Distance"};
-        	String name = "rs1_" + (int)run.sensingRange1 + "_rc1_" + (int)run.communicationRange + "_n1_" + run.sensorCount1 + "_rs2_" + (int)run.sensingRange2 + "_rc2_" + (int)run.communicationRange + "_n2_" + run.sensorCount2 +  "_t_" + run.detectionThreshold + "_w_" + run.w + "_h_" + run.h + "_" + run.mouseAlgorithmType;
+        	String name = "rs1_" + (int)run.sensingRange1 + "_rc1_" + (int)run.communicationRange1 + "_n1_" + run.sensorCount1 + "_rs2_" + (int)run.sensingRange2 + "_rc2_" + (int)run.communicationRange2 + "_n2_" + run.sensorCount2 +  "_t_" + run.detectionThreshold + "_w_" + run.w + "_h_" + run.h + "_" + run.mouseAlgorithmType;
         	
             String filename = name + ".csv";
             try{
