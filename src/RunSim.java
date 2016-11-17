@@ -28,6 +28,8 @@ public class RunSim {
     public float sensingRange1 = 20;
     public float sensingRange2 = 40;
     public float communicationRange = 999;
+    public float communicationRange1 = 999;
+    public float communicationRange2 = 999;
     public int detectionThreshold = 1;
     public float intruderSensingRange = 60;
 
@@ -81,6 +83,8 @@ public class RunSim {
         sensingRange1 = wsnFrame.getT1SensingRange();
         sensingRange2 = wsnFrame.getT2SensingRange();
         communicationRange = wsnFrame.getT1CommunicationRange();
+        communicationRange1 = wsnFrame.getT1CommunicationRange();
+        communicationRange2 = wsnFrame.getT2CommunicationRange();
         detectionThreshold = wsnFrame.getDetectionThreshold();
         mouseAlgorithmType = wsnFrame.getAlgorithmType();
         intruderSensingRange = wsnFrame.getIntruderSensingRange();
@@ -106,13 +110,13 @@ public class RunSim {
     public void resetSurface() {
         Random rand = new Random();
         cats = new Cat[sensorCount1 + sensorCount2 + 1];
-        cats[0] = new Cat(w, (int) h / 2 + 1, true, 1);
+        cats[0] = new Cat(w, (int) h / 2 + 1, true, 1, communicationRange1); // Home base always has comRange 1...
         for (int i = 1; i <= sensorCount1; i++) {
-            cats[i] = new Cat(w, h, sensingRange1);
+            cats[i] = new Cat(w, h, sensingRange1, communicationRange1);
             //cats[i] = new Cat(w, h, 15);
         }
         for (int i = sensorCount1 + 1; i <= sensorCount1 + sensorCount2; i++) {
-            cats[i] = new Cat(w, h, sensingRange2);
+            cats[i] = new Cat(w, h, sensingRange2, communicationRange2);
             //cats[i] = new Cat(w, h, 30);
         }
 
@@ -161,7 +165,7 @@ public class RunSim {
 // determines if the mouse is detected by the network
     private int detect(double mouseX, double mouseY) {
         for (int i = 0; i < cats.length; i++) {
-            if (cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent()) {
+            if (cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].isOn()) {
                 return i;
             }
         }
@@ -175,7 +179,7 @@ public class RunSim {
         }
 
         for (int i = 0; i < cats.length; i++) {
-            if (cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent()) {
+            if (cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].isOn()) {
                 boolean used = false;
                 for (int j = 0; j < caughtArray.length; j++) {
                     if (caughtArray[j] == i) {
@@ -200,7 +204,7 @@ public class RunSim {
         int n = 0;
 
         for (int i = 0; i < cats.length; i++) {
-            if (cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].hasParent()) {
+            if (cats[i].detect(mouseX, mouseY, cats[i].getSensingRange()) && cats[i].isOn()) {
                 caughtArray[n++] = i;
                 if (n >= detectionThreshold) {
                     return i;
@@ -217,7 +221,7 @@ public class RunSim {
         // n.distance = INFINITY
         //n.setParent(new Cat());
         for (int i = 1; i < sensorCount1 + sensorCount2; i++) {
-            cats[i].setParent(null);
+            cats[i].turnOff();
         }
 
 		// create empty queue Q
@@ -236,13 +240,13 @@ public class RunSim {
             // for(int i = 1; i < cats.length; i++)
             for (int i = 1; i <= sensorCount1 + sensorCount2; i++) {
 
-                if (!cats[i].hasParent()
-                        && Math.abs(u.getX() - cats[i].getX()) < communicationRange
-                        && Math.abs(u.getY() - cats[i].getY()) < communicationRange
-                        && Math.sqrt(Math.pow((u.getX() - cats[i].getX()), 2) + Math.pow((u.getY() - cats[i].getY()), 2)) < communicationRange) {
+                if (!cats[i].isOn()
+                        && Math.abs(u.getX() - cats[i].getX()) < cats[i].getCommunicationRange()
+                        && Math.abs(u.getY() - cats[i].getY()) < cats[i].getCommunicationRange()
+                        && Math.sqrt(Math.pow((u.getX() - cats[i].getX()), 2) + Math.pow((u.getY() - cats[i].getY()), 2)) < cats[i].getCommunicationRange()) {
                                 // if cats[i].distance == INFINITY:
                     // cats[i].parent = u
-                    cats[i].setParent(u);
+                    cats[i].turnOn();
                     // catQ.enqueue(n)
                     catQ.addFirst(cats[i]);
                 }

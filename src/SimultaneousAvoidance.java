@@ -41,7 +41,7 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 		{
 			dist = Point.distance(x,y,run.cats[i].getX(),run.cats[i].getY());
 			run.intruderSensingRange = run.cats[i].getSensingRange() + 1;
-			if(run.cats[i].hasParent() &&  dist <= run.intruderSensingRange)
+			if(run.cats[i].isOn() &&  dist <= run.intruderSensingRange)
 			{
 				if(numFront == 0 && Point.distance(x+1,y,run.cats[i].getX(),run.cats[i].getY()) <= run.cats[i].getSensingRange())
 					numFront = i;

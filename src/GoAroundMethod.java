@@ -55,7 +55,7 @@ public class GoAroundMethod implements IntrusionAlgorithm {
 		{
 			dist = Point.distance(x, y, run.cats[i].getX(), run.cats[i].getY());
 			//if(dist < radius &&  run.cats[i].hasParent())
-			if(dist < run.cats[i].getSensingRange() + 2 &&  run.cats[i].hasParent())
+			if(dist < run.cats[i].getSensingRange() + 2 &&  run.cats[i].isOn())
 			{
 				if(dist < minDist)
 				{
