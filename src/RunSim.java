@@ -292,13 +292,14 @@ public class RunSim {
             numSuccesses++;
         }
 
-        totalMouseDistance = totalMouseDistance + mouse.getX();
-
         //
         double mouseDist = mouse.getX();
         if (mouseDist < 0) {
             mouseDist = 0; /**/
         }
+        
+        totalMouseDistance = totalMouseDistance + mouseDist;
+        
         int start = mouse.getTravels().get(0).y;
         wsnFrame.printToLog("Trial #" + iteration + ": Success=" + mouseSuccess() + "; Distance Traveled: " + mouseDist + "; Successes = " + numSuccesses
                 + "; Total Distance: " + totalMouseDistance + "; Average Distance: " + (totalMouseDistance / (iteration + 1)) + "\n");
