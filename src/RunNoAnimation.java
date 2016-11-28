@@ -4,13 +4,17 @@ public class RunNoAnimation {
     public RunSim run;
     public int iterations;
     private int files = 1;
+    
+    public csvOut finalCSV;
 
     public RunNoAnimation(int x, int y, WSNFrame fram) {
         run = new RunSim(x, y, fram);
+        finalCSV = new csvOut(false);
     }
 
     public RunNoAnimation(int id, WSNFrame fram) {
         run = new RunSim(id, fram);
+        finalCSV = new csvOut(false);
     }
 
     public void run() {
@@ -27,11 +31,21 @@ public class RunNoAnimation {
                 times = 0;
                 run.saveTrial(iterations++);
             }
+            
         }
+        
+        finalCSV.append(run.lastLine);
+        System.out.println("Here" + run.lastLine);
+        String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+				"Total Distance", "Average Distance"};        
+        String fileName = "Rs1" + (int)run.sensingRange1 + " Rc1" + (int)run.communicationRange1 + " N1" + run.sensorCount1 + 
+				  " Rs2" + (int)run.sensingRange2 + " Rc2" + (int)run.communicationRange2 + " N2" + run.sensorCount2 +  
+				  " T" + run.detectionThreshold + " " + run.mouseAlgorithmType;
+		
+		run.csv.close(fileName, header);
 
-        run.csv.close(run);
-		//run.csv.close(files);
-        //files++;
+        String[] finalHeader = {"Algorithm", "Rs1", "Rc1", "N1", "Rs2", "Rc2", "N2", "T", "Avg Dist", "Succ Ratio"};
+		finalCSV.close("Master CSV", finalHeader);
     }
 
     public void runForGraph() {
@@ -49,9 +63,12 @@ public class RunNoAnimation {
             }
         }
 
-		//run.csv.close(files);
-        //files++;
-        run.csv.close(run);
+        String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
+				"Total Distance", "Average Distance"};
+		
+		run.csv.close("Rs1" + (int)run.sensingRange1 + " Rc1" + (int)run.communicationRange1 + " N1" + run.sensorCount1 + 
+					 " Rs2" + (int)run.sensingRange2 + " Rc2" + (int)run.communicationRange2 + " N2" + run.sensorCount2 +  
+					  " T" + run.detectionThreshold + " " + run.mouseAlgorithmType, header);
     }
 
     public boolean graphData(String metric, int start, int end, int increment) {

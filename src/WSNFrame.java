@@ -419,7 +419,7 @@ public class WSNFrame extends JFrame {
         saving = updateConfigBox() + 1;
 
         btn_saveConfig = new JButton("Save");
-        btn_saveConfig.setEnabled(false);
+        btn_saveConfig.setEnabled(true);
 
         btn_delConfig = new JButton("Delete");
         btn_delConfig.setEnabled(false);
@@ -502,6 +502,7 @@ public class WSNFrame extends JFrame {
         btn_startSim.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearLog();
+                updateBtnListener.actionPerformed(e);
                 // scrollPane.remove(surface);
                 btn_startSimAnim.setEnabled(false);
                 btn_startSim.setEnabled(false);
@@ -595,7 +596,10 @@ public class WSNFrame extends JFrame {
 
         btn_saveConfig.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+            	
+            	String[] finalHeader = {"Algorithm", "Rs1", "Rc1", "N1", "Rs2", "Rc2", "N2", "T", "Avg Dist", "Succ Ratio"};
+        		looper.finalCSV.close("Master CSV", finalHeader);
+            	
             }
         });
 
