@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.sql.*;
 
 public class RunSim {
-
     // allows for getting frame form elements' values
 
     public WSNFrame wsnFrame;
@@ -18,6 +17,7 @@ public class RunSim {
     //ZACK
     int numSuccesses = 0;
     double totalMouseDistance = 0.0;
+    String lastLine;
 
     //David
     public csvOut csv;
@@ -52,10 +52,7 @@ public class RunSim {
     public int[] caughtArray;
 
     public RunSim(int x, int y, WSNFrame frame) {
-		//String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
-        //"Total Distance", "Average Distance"};
-        //csv = new csvOut("output", header);		
-        csv = new csvOut();
+        csv = new csvOut(true);
 
         wsnFrame = frame;
         cats = new Cat[sensorCount1 + sensorCount2];
@@ -66,9 +63,6 @@ public class RunSim {
     }
 
     public RunSim(int id, WSNFrame frame) {
-		//String[] header =  {"Trial #", "Success", "Distance Traveled", "Successes", 
-        //"Total Distance", "Average Distance"};
-        //csv = new csvOut("output", header);	
 
         wsnFrame = frame;
         // recallSimulation(id);
@@ -260,7 +254,9 @@ public class RunSim {
 
 //determines if the mouse is in a current state of success
     public boolean mouseSuccess() {
-        return mouse.getX() >= w;
+    	if(mouse.getX() > w)
+    		mouse.setX(w);
+        return mouse.getX() == w;
     }
 
 // this is the main animation function for the panel
@@ -303,14 +299,20 @@ public class RunSim {
         }
         
         totalMouseDistance = totalMouseDistance + mouseDist;
-        
         int start = mouse.getTravels().get(0).y;
         wsnFrame.printToLog("Trial #" + iteration + ": Success=" + mouseSuccess() + "; Distance Traveled: " + mouseDist + "; Successes = " + numSuccesses
                 + "; Total Distance: " + totalMouseDistance + "; Average Distance: " + (totalMouseDistance / (iteration + 1)) + "\n");
 
-        csv.append(iteration + ", " + mouseSuccess() + ", " + mouseDist + ", " + numSuccesses
-                + ", " + totalMouseDistance + ", " + (totalMouseDistance / (iteration + 1)));
-
+        String stringToAppend = iteration + ", " + mouseSuccess() + ", " + mouseDist + ", " + numSuccesses
+                + ", " + totalMouseDistance + ", " + (totalMouseDistance / (iteration + 1));
+        
+        
+        //{"Algorithm", "Rs1", "Rc1", "N1", "Rs2", "Rc2", "N2", "T", "Avg Dist", "Succ Ratio"}
+        lastLine = mouseAlgorithmType + ", " + sensingRange1 + ", " + communicationRange1 + ", " + sensorCount1 + ", " + 
+                                               sensingRange2 + ", " + communicationRange2 + ", " + sensorCount2 + ", " + 
+        		                               detectionThreshold + ", " + (totalMouseDistance / (iteration + 1)) + ", " + ((double)numSuccesses / (iteration + 1.0))  ;
+        
+        csv.append(stringToAppend);
         restartSimulation(true);
     }
 
@@ -318,8 +320,16 @@ public class RunSim {
     public void saveTrial(int iteration, int saveNum) {
         double mouseDist = mouse.getX();
         wsnFrame.printToLog("Trial #" + iteration + ": Success=" + mouseSuccess() + "; Distance Traveled: " + mouseDist + ";\n");
+
+        String stringToAppend = iteration + ", " + mouseSuccess() + ", " + mouseDist + ", " + numSuccesses
+                + ", " + totalMouseDistance + ", " + (totalMouseDistance / (iteration + 1));
+        
+        csv.append(stringToAppend);
+        lastLine = mouseAlgorithmType + ", " + sensingRange1 + ", " + communicationRange1 + ", " + sensorCount1 + ", " + 
+                sensingRange2 + ", " + communicationRange2 + ", " + sensorCount2 + ", " + 
+                detectionThreshold + ", " + (totalMouseDistance / (iteration + 1)) + ", " + ((double)numSuccesses / (iteration + 1.0))  ;
+        
         restartSimulation(true);
-        // System.out.println("Saving Trial: "+w+" , "+mouseDist);
     }
 //end of RunSim class
 }
