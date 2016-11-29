@@ -310,7 +310,7 @@ public class RunSim {
         //{"Algorithm", "Rs1", "Rc1", "N1", "Rs2", "Rc2", "N2", "T", "Avg Dist", "Succ Ratio"}
         lastLine = mouseAlgorithmType + ", " + sensingRange1 + ", " + communicationRange1 + ", " + sensorCount1 + ", " + 
                                                sensingRange2 + ", " + communicationRange2 + ", " + sensorCount2 + ", " + 
-        		                               detectionThreshold + ", " + (totalMouseDistance / (iteration + 1)) + ", " + ((double)numSuccesses / (iteration + 1.0))  ;
+        		                               detectionThreshold + ", " + intruderSensingRange + ", " + (totalMouseDistance / (iteration + 1)) + ", " + ((double)numSuccesses / (iteration + 1.0))  ;
         
         csv.append(stringToAppend);
         restartSimulation(true);
@@ -327,7 +327,7 @@ public class RunSim {
         csv.append(stringToAppend);
         lastLine = mouseAlgorithmType + ", " + sensingRange1 + ", " + communicationRange1 + ", " + sensorCount1 + ", " + 
                 sensingRange2 + ", " + communicationRange2 + ", " + sensorCount2 + ", " + 
-                detectionThreshold + ", " + (totalMouseDistance / (iteration + 1)) + ", " + ((double)numSuccesses / (iteration + 1.0))  ;
+                detectionThreshold + ", " + intruderSensingRange + ", " + (totalMouseDistance / (iteration + 1)) + ", " + ((double)numSuccesses / (iteration + 1.0))  ;
         
         restartSimulation(true);
     }
