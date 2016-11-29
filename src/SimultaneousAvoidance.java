@@ -7,6 +7,9 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 	private int currentCat;
 	private byte quadrant;
 	private boolean onWall = false;
+	private int saved_x = -1;
+	private int saved_y = -1;
+	private int loop_counter = 0;
 	
 	public SimultaneousAvoidance(RunSim runSim)
 	{
@@ -67,10 +70,23 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 			}
 		}
 		
+		System.out.println("Loop Counter = " + loop_counter);
+		System.out.println("x = " + saved_x);
+		System.out.println("y = " + saved_y);
+		
 		if(currentCat == -1)
 		{
 			if(numFront == 0)
 				return new double[]{x+1,y};
+			
+			if(numFront != 0 && numBack != 0 && numUp != 0 && numDown != 0){
+				return new double[]{x+1,y};
+			}
+			
+			currentCat = -1;
+			saved_x = -1;
+			saved_y = -1;
+			loop_counter = 0;
 			
 			currentCat = numFront;
 			
@@ -88,8 +104,25 @@ public class SimultaneousAvoidance implements IntrusionAlgorithm {
 				return new double[]{x-1,y};
 			}
 		}
-		else if(currentCat != -1)
+		else if (currentCat != -1)
 		{
+			if (saved_x == -1 && saved_y == -1){
+				saved_x = (int)x;
+				saved_y = (int)y;
+			} else if (saved_x == (int)x && saved_y == (int)y) {
+				loop_counter++;
+				System.out.println("Loop Counter = " + loop_counter);
+			}
+			if (loop_counter > 3){
+				System.out.println("COUNTER TOO HIGH");
+				currentCat = -1;
+				saved_x = 0;
+				saved_y = 0;
+				loop_counter = 0;
+				return new double[]{x+1,y};
+			}
+			
+			
 			newQuadrant = findQuadrant(currentCat,x,y);
 			if(!onWall && (y == run.h || y == 0))
 			{
