@@ -40,11 +40,11 @@ public class RunNoAnimation {
 				"Total Distance", "Average Distance"};        
         String fileName = "Rs1" + (int)run.sensingRange1 + " Rc1" + (int)run.communicationRange1 + " N1" + run.sensorCount1 + 
 				  " Rs2" + (int)run.sensingRange2 + " Rc2" + (int)run.communicationRange2 + " N2" + run.sensorCount2 +  
-				  " T" + run.detectionThreshold + " " + run.mouseAlgorithmType;
+				  " T" + run.detectionThreshold + " IDR" + run.intruderSensingRange + " " + run.mouseAlgorithmType;
 		
 		run.csv.close(fileName, header);
 
-        String[] finalHeader = {"Algorithm", "Rs1", "Rc1", "N1", "Rs2", "Rc2", "N2", "T", "Avg Dist", "Succ Ratio"};
+        String[] finalHeader = {"Algorithm", "Rs1", "Rc1", "N1", "Rs2", "Rc2", "N2", "T", "IDR", "Avg Dist", "Succ Ratio"};
 		finalCSV.close("Master CSV", finalHeader);
     }
 
@@ -68,7 +68,7 @@ public class RunNoAnimation {
 		
 		run.csv.close("Rs1" + (int)run.sensingRange1 + " Rc1" + (int)run.communicationRange1 + " N1" + run.sensorCount1 + 
 					 " Rs2" + (int)run.sensingRange2 + " Rc2" + (int)run.communicationRange2 + " N2" + run.sensorCount2 +  
-					  " T" + run.detectionThreshold + " " + run.mouseAlgorithmType, header);
+					  " T" + run.detectionThreshold + " IDR" + run.intruderSensingRange + " " + run.mouseAlgorithmType, header);
     }
 
     public boolean graphData(String metric, int start, int end, int increment) {
