@@ -3,6 +3,8 @@ import java.util.LinkedList;
 
 public class GoAroundMethod implements IntrusionAlgorithm {
 
+	
+	private int timer = 0;
 	private RunSim run;
 	private boolean intelligent = false;
 	private int around = 1;
@@ -32,8 +34,12 @@ public class GoAroundMethod implements IntrusionAlgorithm {
 	public double[] doNextMove(double x, double y) {
 		double radius;
 		
+		timer += 1;
+		if(timer > 100000)
+			return new double[]{x+1,y};
+		
 //		hard-coding this value for now
-		intelligent = false;
+		intelligent = true;
 		
 		if(run.intruderSensingRange > run.sensingRange1)
 		{
@@ -55,7 +61,7 @@ public class GoAroundMethod implements IntrusionAlgorithm {
 		{
 			dist = Point.distance(x, y, run.cats[i].getX(), run.cats[i].getY());
 			//if(dist < radius &&  run.cats[i].hasParent())
-			if(dist < run.cats[i].getSensingRange() + 2 &&  run.cats[i].isOn() && dist < radius)
+			if(dist < run.cats[i].getSensingRange() + 2 &&  run.cats[i].isOn())
 			{
 				if(dist < minDist)
 				{
