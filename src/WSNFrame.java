@@ -285,6 +285,7 @@ public class WSNFrame extends JFrame {
         choice_itrAlg.add("SimultaneousAvoidance");
         choice_itrAlg.add("SimultaneousAvoidance2");
         choice_itrAlg.add("FollowTheGap2");
+        choice_itrAlg.add("ReciprocalOrientation");
         choice_itrAlg.add("All");
 
         JLabel lbl_itrSns = new JLabel("Intruder Sensing Range:");

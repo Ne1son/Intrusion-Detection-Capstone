@@ -61,6 +61,10 @@ public class Mouse
 				alg = new LinearIntrusion();
 			break;
 			
+			case "ReciprocalOrientation":
+				alg = new ReciprocalOrientation(run);
+			break;
+			
 			default:
 				alg = new LinearIntrusion();
 		}
