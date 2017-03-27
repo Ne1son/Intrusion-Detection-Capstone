@@ -45,11 +45,11 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 		return -1;
 	}
 	
-	public double checkDir(double myDir, double intX, double intY){
+	public double checkDir(double myDir, double intX, double intY, double distCheck){
 		int i = 0;
 		double retDir = myDir;
-		int itr = 50;
-		while (i < itr){
+		int whichWay = 0;
+		while (i < distCheck){
 			double lookX = intX + (Math.cos(retDir) * i);
 			double lookY = intY + (Math.sin(retDir) * i);
 			int ret = checkPoints(lookX, lookY);
@@ -62,14 +62,26 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 				
 				if (intY < run.cats[ret].getY()){
 					retDir = retDir - Math.asin(rad/hyp);
+					whichWay = -1;
 				} else {
 					retDir = retDir + Math.asin(rad/hyp);
+					whichWay = 1;
 				}
 				sightIndex = ret;
-				tangentX = intX + (Math.cos(retDir) * (Math.sqrt(Math.pow(hyp, 2) - Math.pow(rad, 2))));
+				double tangent = (Math.sqrt(Math.pow(hyp, 2) - Math.pow(rad, 2)));
 				
-				retDir = checkDir(retDir, intX, intY); // stop doing the 50 points ahead!
-				i = itr;
+				lookX = intX + (Math.cos(retDir) * tangent);
+				lookY = intY + (Math.sin(retDir) * tangent);
+				if (checkPoints(lookX, lookY) != -1){
+					if (whichWay == -1){
+						retDir = retDir + Math.asin(rad/hyp) * 2;
+					} else {
+						retDir = retDir - Math.asin(rad/hyp) * 2;
+					}
+				}
+				tangentX = intX + (Math.cos(retDir) * (Math.sqrt(Math.pow(hyp, 2) - Math.pow(rad, 2))));
+				retDir = checkDir(retDir, intX, intY, tangent);
+				i = 50;
 			} else {
 				i = i + 1;
 			}
@@ -114,18 +126,30 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 			}
 		}
 		
+		boolean goOn = true;
+		
 		if (sightIndex == -1){
-			dir = checkDir(dir, x, y);
+			if (x + Math.cos(dir) < x) {
+				dir = 0;
+			}
+			if (y == 0 || y == run.h){
+				dir = 0;
+			}
+			dir = checkDir(dir, x, y, 50);
 		} else {
 			if (x > tangentX){
 				sightIndex = -1;
 				tangentX = -1;
+				goOn = false;
 			}
 		}
 		
-		
 		//System.out.println(dir);
-		return new double[]{x + Math.cos(dir), y + Math.sin(dir)};
+		if (goOn == true){
+			return new double[]{x + Math.cos(dir), y + Math.sin(dir)};
+		} else {
+			return new double[]{x, y};
+		}
 	}
 
 	@Override
