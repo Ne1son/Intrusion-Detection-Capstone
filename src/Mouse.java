@@ -33,10 +33,14 @@ public class Mouse
 				alg = new RandomIntrusion();
 				break;
 			
-			case "A*":
+			case "Astar":
 				alg = new AStarIntrusion(run);
 				break;
 			
+                        case "ReciprocalOrientation":
+				alg = new ReciprocalOrientation(run);
+				break;
+                            
 			case "FollowTheGapMethod":
 				alg = new FollowTheGapMethod(run);
 			break;
@@ -59,10 +63,6 @@ public class Mouse
 				
 			case "Linear":
 				alg = new LinearIntrusion();
-			break;
-			
-			case "ReciprocalOrientation":
-				alg = new ReciprocalOrientation(run);
 			break;
 			
 			default:

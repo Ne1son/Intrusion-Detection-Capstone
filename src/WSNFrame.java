@@ -279,13 +279,13 @@ public class WSNFrame extends JFrame {
         choice_itrAlg = new Choice();
         choice_itrAlg.add("Linear");
         choice_itrAlg.add("Random");
-        choice_itrAlg.add("A*");
+        choice_itrAlg.add("Astar");
+        choice_itrAlg.add("ReciprocalOrientation");
         choice_itrAlg.add("FollowTheGapMethod");
         choice_itrAlg.add("GoAroundMethod");
         choice_itrAlg.add("SimultaneousAvoidance");
         choice_itrAlg.add("SimultaneousAvoidance2");
         choice_itrAlg.add("FollowTheGap2");
-        choice_itrAlg.add("ReciprocalOrientation");
         choice_itrAlg.add("All");
 
         JLabel lbl_itrSns = new JLabel("Intruder Sensing Range:");
