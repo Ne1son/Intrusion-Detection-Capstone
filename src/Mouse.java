@@ -33,9 +33,9 @@ public class Mouse
 				alg = new RandomIntrusion();
 				break;
 			
-//			case "A*":
-//				alg = new AStarIntrusion(run);
-//				break;
+			case "A*":
+				alg = new AStarIntrusion(run);
+				break;
 			
 			case "FollowTheGapMethod":
 				alg = new FollowTheGapMethod(run);

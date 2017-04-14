@@ -13,6 +13,8 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 	public int sightIndex = -1;
 	public double tangentX = -1;
 	
+	public int itrCount = 0;
+	
 	public ReciprocalOrientation(RunSim runSim)
 	{
 		run = runSim;
@@ -63,9 +65,11 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 				if (intY < run.cats[ret].getY()){
 					retDir = retDir - Math.asin(rad/hyp);
 					whichWay = -1;
+					System.out.println("Going up!");
 				} else {
 					retDir = retDir + Math.asin(rad/hyp);
 					whichWay = 1;
+					System.out.println("Going down!");
 				}
 				sightIndex = ret;
 				double tangent = (Math.sqrt(Math.pow(hyp, 2) - Math.pow(rad, 2)));
@@ -75,8 +79,10 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 				if (checkPoints(lookX, lookY) != -1){
 					if (whichWay == -1){
 						retDir = retDir + Math.asin(rad/hyp) * 2;
-					} else {
+						System.out.println("Can't go up, going down.");
+					} else if (whichWay == 1) {
 						retDir = retDir - Math.asin(rad/hyp) * 2;
+						System.out.println("Can't go down, going up");
 					}
 				}
 				tangentX = intX + (Math.cos(retDir) * (Math.sqrt(Math.pow(hyp, 2) - Math.pow(rad, 2))));
@@ -92,6 +98,10 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 	@Override
 	public double[] doNextMove(double x, double y) {
 		double radius;
+		
+		if (itrCount > 200) {
+			return new double[]{x + 1, y};
+		}
 		
 //		hard-coding this value for now
 		intelligent = false;
@@ -112,6 +122,7 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 		int minIndex = 0;
 		double dist;
 		Cat cat;
+		/*
 		for(int i = 0; i < run.cats.length; i++)
 		{
 			dist = Point.distance(x, y, run.cats[i].getX(), run.cats[i].getY());
@@ -124,7 +135,7 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 					minIndex = i;
 				}
 			}
-		}
+		}*/
 		
 		boolean goOn = true;
 		
@@ -137,10 +148,20 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 			}
 			dir = checkDir(dir, x, y, 50);
 		} else {
-			if (x > tangentX){
-				sightIndex = -1;
-				tangentX = -1;
-				goOn = false;
+			if (dir > -1 * Math.PI /2 && dir < Math.PI /2){
+				if (x >= tangentX){
+					sightIndex = -1;
+					tangentX = -1;
+					goOn = false;
+					itrCount++;
+				}
+			} else {
+				if (x <= tangentX){
+					sightIndex = -1;
+					tangentX = -1;
+					goOn = false;
+					itrCount++;
+				}
 			}
 		}
 		
