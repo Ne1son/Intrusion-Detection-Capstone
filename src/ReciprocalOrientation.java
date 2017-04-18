@@ -3,6 +3,8 @@ import java.util.LinkedList;
 
 public class ReciprocalOrientation implements IntrusionAlgorithm {
 
+	
+	boolean doublecheck = true;
 	private RunSim run;
 	private boolean intelligent = true;
 	private int around = 1;
@@ -48,10 +50,15 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 	}
 	
 	public double checkDir(double myDir, double intX, double intY, double distCheck){
+		int counter = 3000;
 		int i = 0;
 		double retDir = myDir;
 		int whichWay = 0;
 		while (i < distCheck){
+			if(counter <= 0)
+			{
+				return 0;
+			}
 			double lookX = intX + (Math.cos(retDir) * i);
 			double lookY = intY + (Math.sin(retDir) * i);
 			int ret = checkPoints(lookX, lookY);
@@ -77,6 +84,7 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 				lookX = intX + (Math.cos(retDir) * tangent);
 				lookY = intY + (Math.sin(retDir) * tangent);
 				if (checkPoints(lookX, lookY) != -1){
+					
 					if (whichWay == -1){
 						retDir = retDir + Math.asin(rad/hyp) * 2;
 						System.out.println("Can't go up, going down.");
@@ -86,19 +94,24 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 					}
 				}
 				tangentX = intX + (Math.cos(retDir) * (Math.sqrt(Math.pow(hyp, 2) - Math.pow(rad, 2))));
+				if(doublecheck == true){
+				doublecheck = false;
 				retDir = checkDir(retDir, intX, intY, tangent);
+				}
 				i = 50;
 			} else {
 				i = i + 1;
 			}
+			counter--;
 		}
+		doublecheck = true;
 		return retDir;
 	}
 
 	@Override
 	public double[] doNextMove(double x, double y) {
 		double radius;
-		
+
 		if (itrCount > 200) {
 			return new double[]{x + 1, y};
 		}
@@ -164,7 +177,6 @@ public class ReciprocalOrientation implements IntrusionAlgorithm {
 				}
 			}
 		}
-		
 		//System.out.println(dir);
 		if (goOn == true){
 			return new double[]{x + Math.cos(dir), y + Math.sin(dir)};
